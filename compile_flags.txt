@@ -1,0 +1,10 @@
+-Wall
+-Wextra
+
+-Iexternal/concord/include
+-Iexternal/concord/core
+-Iexternal/concord/gencodecs
+
+-Iinclude
+
+-std=c23
