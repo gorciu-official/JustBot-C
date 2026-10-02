@@ -1,3 +1,4 @@
+#include <lib/logger.h>
 #include <bot/bot.h>
 #include <discord-events.h>
 
@@ -19,6 +20,7 @@ void bot_on_message_create(struct discord*, const DiscordMessage* msg) {
 }
 
 void bot_init(JustBot* bot, JustBotSecrets* secrets) {
+    logger_log("Hi! The answer to everything in life is %d!", 42); 
     bot->clients.discord = discord_init(secrets->discord_token);
     discord_add_intents(bot->clients.discord, JUSTBOT_INTENTS);
     discord_set_on_message_create(bot->clients.discord, bot_on_message_create);
