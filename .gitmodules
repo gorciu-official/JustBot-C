@@ -1,0 +1,4 @@
+[submodule "external/concord"]
+	path = external/concord
+	url = https://github.com/Cogmasters/concord.git
+	branch = dev
