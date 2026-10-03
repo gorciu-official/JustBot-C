@@ -6,6 +6,7 @@
 
 #include <string.h>
 #include <lib/some.h>
+#include <lib/includes.h>
 
 #include <events/interaction-reply-boilerplate.h>
 
@@ -18,7 +19,24 @@ void bot_on_interaction(DiscordClient* client, const DiscordInteraction* event) 
     SOME(JustBotCommand, commands, cmd, strcmp(cmd->name, event->data->name) == 0) 
 
     if (!cmd) {
-        DISCORD_IREPLY_ERROR(bot, event->id, event->token, "Nie znalazłem komendy!", "Albo jest jakiś internal error w bocie albo masz outdated Discord interactions albo taka komenda nie istnieje (choć nie powinna się zarejestrować w ogóle). Nie wiem, spinguj administrację!");
+        // display command not found message
+        DISCORD_IREPLY_ERROR(
+            bot, event->id, event->token, 
+            bot->config.commands.shared_runner_messages.command_not_found_title,
+            bot->config.commands.shared_runner_messages.command_not_found_desc
+        );
+        return;
+    }
+
+    INCLUDES(bot->config.commands.killswitches.commands, a, command_killswitched, strcmp(a, cmd->name) == 0)
+
+    if (bot->config.commands.killswitches.slash || command_killswitched) {
+        // display killswitch message
+        DISCORD_IREPLY_ERROR(
+            bot, event->id, event->token, 
+            bot->config.commands.shared_runner_messages.killswitch_activated_title,
+            bot->config.commands.shared_runner_messages.killswitch_activated_desc
+        );
         return;
     }
 
