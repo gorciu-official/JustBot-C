@@ -12,6 +12,18 @@ static void ireply_error(JustBotCommandAPI* api, char* title, char* desc) {
     DISCORD_IREPLY_ERROR(bot, event->id, event->token, title, desc);
 }
 
+static void ireply_success(JustBotCommandAPI* api, char* title, char* desc) {
+    const DiscordInteraction* event = api->raw;
+    JustBot* bot = api->bot; 
+    DISCORD_IREPLY_SUCCESS(bot, event->id, event->token, title, desc);
+}
+
+static void ireply_info(JustBotCommandAPI* api, char* title, char* desc) {
+    const DiscordInteraction* event = api->raw;
+    JustBot* bot = api->bot; 
+    DISCORD_IREPLY_INFO(bot, event->id, event->token, title, desc);
+}
+
 void bot_on_interaction(DiscordClient* client, const DiscordInteraction* event) {
     JustBot* bot = discord_get_data(client);
 
@@ -40,7 +52,9 @@ void bot_on_interaction(DiscordClient* client, const DiscordInteraction* event) 
             .used_alias = cmd->name
         },
         .reply = {
-            .error = ireply_error
+            .error = ireply_error,
+            .success = ireply_success,
+            .info = ireply_info
         }
     });
 }

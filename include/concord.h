@@ -403,6 +403,13 @@ static inline DiscordErrorCode discord_interaction_reply_embed(DiscordClient* cl
     return discord_create_interaction_response(client, event_id, event_token, &params, NULL);
 }
 
+#define DISCORD_CUSTOMIZATION_ERROR_COLOR 0xff0000
+#define DISCORD_CUSTOMIZATION_ERROR_EMOJI "🛑"
+#define DISCORD_CUSTOMIZATION_SUCCESS_COLOR 0x00ff00
+#define DISCORD_CUSTOMIZATION_SUCCESS_EMOJI "✅"
+#define DISCORD_CUSTOMIZATION_INFO_COLOR 0x0000ff
+#define DISCORD_CUSTOMIZATION_INFO_EMOJI "ℹ️"
+
 #define DISCORD_REPLY_PREDEFINED_EMBED_STYLE(ecolor, eemoji, bot, msg, etitle, edesc) \
     do { \
         char _embed_title[256]; \
@@ -416,7 +423,7 @@ static inline DiscordErrorCode discord_interaction_reply_embed(DiscordClient* cl
     } while (0);
 
 #define DISCORD_REPLY_ERROR(bot, msg, etitle, edesc) \
-    DISCORD_REPLY_PREDEFINED_EMBED_STYLE(0xff0000, "🛑", bot, msg, etitle, edesc)
+    DISCORD_REPLY_PREDEFINED_EMBED_STYLE(DISCORD_CUSTOMIZATION_ERROR_COLOR, DISCORD_CUSTOMIZATION_ERROR_EMOJI, bot, msg, etitle, edesc)
 
 #define DISCORD_IREPLY_PREDEFINED_EMBED_STYLE(ecolor, eemoji, bot, event_id, event_token, etitle, edesc) \
     do { \
@@ -431,4 +438,10 @@ static inline DiscordErrorCode discord_interaction_reply_embed(DiscordClient* cl
     } while (0)
 
 #define DISCORD_IREPLY_ERROR(bot, event_id, event_token, etitle, edesc) \
-    DISCORD_IREPLY_PREDEFINED_EMBED_STYLE(0xff0000, "🛑", bot, event_id, event_token, etitle, edesc)
+    DISCORD_IREPLY_PREDEFINED_EMBED_STYLE(DISCORD_CUSTOMIZATION_ERROR_COLOR, DISCORD_CUSTOMIZATION_ERROR_EMOJI, bot, event_id, event_token, etitle, edesc)
+
+#define DISCORD_IREPLY_SUCCESS(bot, event_id, event_token, etitle, edesc) \
+    DISCORD_IREPLY_PREDEFINED_EMBED_STYLE(DISCORD_CUSTOMIZATION_SUCCESS_COLOR, DISCORD_CUSTOMIZATION_SUCCESS_EMOJI, bot, event_id, event_token, etitle, edesc)
+
+#define DISCORD_IREPLY_INFO(bot, event_id, event_token, etitle, edesc) \
+    DISCORD_IREPLY_PREDEFINED_EMBED_STYLE(DISCORD_CUSTOMIZATION_INFO_COLOR, DISCORD_CUSTOMIZATION_INFO_EMOJI, bot, event_id, event_token, etitle, edesc)

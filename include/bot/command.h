@@ -19,6 +19,8 @@ typedef struct JustBotCommandAPI {
 
     struct {
         void (*error)(struct JustBotCommandAPI* api, char* title, char* desc);
+        void (*success)(struct JustBotCommandAPI* api, char* title, char* desc);
+        void (*info)(struct JustBotCommandAPI* api, char* title, char* desc);
     } reply;
 } JustBotCommandAPI;
 
