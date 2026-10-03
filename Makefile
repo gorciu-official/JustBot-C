@@ -35,3 +35,5 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 run: all
 	@echo -e "\033[1;36m[ RUN ]\033[0m $(TARGET_DIR)/justbot"
 	@dotenv -f .env run $(TARGET_DIR)/justbot
+
+-include $(C_OBJECTS:.o=.d)

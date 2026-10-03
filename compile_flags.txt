@@ -7,4 +7,7 @@
 
 -Iinclude
 
--std=c23
+-std=c23 
+
+-MMD 
+-MP

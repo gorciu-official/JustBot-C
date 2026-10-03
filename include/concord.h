@@ -342,3 +342,47 @@ typedef struct discord_webhooks_update DiscordWebhooksUpdate;
 typedef struct discord_welcome_screen DiscordWelcomeScreen;
 typedef struct discord_welcome_screen_channel DiscordWelcomeScreenChannel;
 typedef struct discord_welcome_screen_channels DiscordWelcomeScreenChannels;
+
+typedef CCORDcode DiscordErrorCode;
+
+typedef u64snowflake DiscordSnowflake;
+
+typedef DiscordSnowflake DiscordGuildID;
+typedef DiscordSnowflake DiscordChannelID;
+typedef DiscordSnowflake DiscordUserID;
+typedef DiscordSnowflake DiscordRoleID;
+
+typedef struct discord DiscordClient;
+
+typedef struct discord_embed DiscordEmbed;
+typedef struct discord_embeds DiscordEmbeds;
+
+static inline DiscordErrorCode discord_reply_ret(DiscordClient* client, const DiscordMessage* reference, DiscordCreateMessage* params, DiscordRetMessage* ret) {
+    DiscordCreateMessage new_params = {0};
+    if (params == NULL)
+        params = &new_params;
+
+    DiscordMessageReference ref = {
+        .message_id = reference->id,
+        .channel_id = reference->channel_id,
+        .guild_id = reference->guild_id
+    };
+    params->message_reference = &ref;
+    return discord_create_message(client, reference->channel_id, params, ret);
+}
+
+static inline DiscordErrorCode discord_reply_embed_ret(DiscordClient* client, const DiscordMessage* reference, DiscordEmbed* embed, DiscordRetMessage* ret) {
+    static DiscordEmbeds embeds = {
+        .size = 1,
+    };
+    embeds.array = embed;
+    
+    DiscordCreateMessage params = (DiscordCreateMessage) {
+        .embeds = &embeds,
+    };
+    return discord_reply_ret(client, reference, &params, ret);
+}
+
+static inline DiscordErrorCode discord_reply_embed(DiscordClient* client, const DiscordMessage* reference, DiscordEmbed* embed) {
+    return discord_reply_embed_ret(client, reference, embed, NULL);
+}
