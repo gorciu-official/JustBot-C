@@ -17,3 +17,7 @@ typedef struct {
 
 extern void bot_init(JustBot* bot, JustBotSecrets* secrets);
 extern void bot_init_default_config(JustBot* bot);
+extern void bot_init_commands(JustBot* bot, const DiscordReady* event);
+
+extern void bot_on_ready(DiscordClient* client, const DiscordReady* event);
+extern void bot_on_interaction(DiscordClient* client, const DiscordInteraction* event);

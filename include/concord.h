@@ -1,8 +1,10 @@
 #pragma once
 
+#include "discord_codecs.h"
 #include <stdint.h>
 
 #include <discord.h>
+#include <interaction.h>
 
 typedef struct discord_activities DiscordActivities;
 typedef struct discord_activity DiscordActivity;
@@ -387,6 +389,20 @@ static inline DiscordErrorCode discord_reply_embed(DiscordClient* client, const 
     return discord_reply_embed_ret(client, reference, embed, NULL);
 }
 
+static inline DiscordErrorCode discord_interaction_reply_embed(DiscordClient* client, uint64_t event_id, char* event_token, DiscordEmbed* embed) {
+    static DiscordEmbeds embeds = {
+        .size = 1
+    };
+    embeds.array = embed;
+    DiscordInteractionResponse params = {
+        .type = DISCORD_INTERACTION_CHANNEL_MESSAGE_WITH_SOURCE,
+        .data = &(DiscordInteractionCallbackData){
+            .embeds = &embeds
+        }
+    };
+    return discord_create_interaction_response(client, event_id, event_token, &params, NULL);
+}
+
 #define DISCORD_REPLY_PREDEFINED_EMBED_STYLE(ecolor, eemoji, bot, msg, etitle, edesc) \
     do { \
         discord_reply_embed(bot->clients.discord, msg, &(DiscordEmbed){ \
@@ -399,3 +415,16 @@ static inline DiscordErrorCode discord_reply_embed(DiscordClient* client, const 
 
 #define DISCORD_REPLY_ERROR(bot, msg, etitle, edesc) \
     DISCORD_REPLY_PREDEFINED_EMBED_STYLE(0xff0000, "🛑", bot, msg, etitle, edesc)
+
+#define DISCORD_IREPLY_PREDEFINED_EMBED_STYLE(ecolor, eemoji, bot, event_id, event_token, etitle, edesc) \
+    do { \
+        discord_interaction_reply_embed(bot->clients.discord, event_id, event_token, &(DiscordEmbed){ \
+            .title = eemoji " " etitle, \
+            .description = edesc, \
+            .color = ecolor, \
+            .author = &(DiscordEmbedAuthor){ .name = "JustBOT-C" } \
+        }); \
+    } while (0);
+
+#define DISCORD_IREPLY_ERROR(bot, event_id, event_token, etitle, edesc) \
+    DISCORD_IREPLY_PREDEFINED_EMBED_STYLE(0xff0000, "🛑", bot, event_id, event_token, etitle, edesc)

@@ -1,5 +1,6 @@
 -Wall
 -Wextra
+-Wno-gnu-variable-sized-type-not-at-end
 
 -Iexternal/concord/include
 -Iexternal/concord/core
