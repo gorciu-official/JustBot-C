@@ -3,8 +3,8 @@
 #include <bot/command.h>
 #include <lib/logger.h>
 
-static void cmd_ping_handler() {
-    logger_log("I got pinged!");
+static void cmd_ping_handler(JustBotCommandAPI* api) {
+    api->reply.error(api, "Ping!", "Nie ma na razie non-error type shit 🥀");
 }
 
 const JustBotCommand cmd_ping = {

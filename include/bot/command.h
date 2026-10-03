@@ -1,8 +1,28 @@
 #pragma once 
 
 #include <stdint.h>
+#include <concord.h>
 
-typedef struct {
+#include <bot/bot.h>
+
+struct JustBotCommand;
+
+typedef struct JustBotCommandAPI {
+    struct {
+        char* used_alias;
+        struct JustBotCommand* command;
+        DiscordGuildMember* member;
+    } invocation;
+
+    const void* raw;
+    JustBot* bot;
+
+    struct {
+        void (*error)(struct JustBotCommandAPI* api, char* title, char* desc);
+    } reply;
+} JustBotCommandAPI;
+
+typedef struct JustBotCommand {
     char* name;
     struct {
         char* main;
@@ -15,7 +35,7 @@ typedef struct {
     } permissions;
     uint64_t flags;
 
-    void (*execute)();
+    void (*execute)(JustBotCommandAPI* api);
 } JustBotCommand;
 
 extern JustBotCommand* commands[];

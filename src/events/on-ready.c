@@ -1,5 +1,3 @@
-#pragma once
-
 #include <concord.h>
 #include <bot/bot.h>
 

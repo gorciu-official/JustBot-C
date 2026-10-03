@@ -405,8 +405,10 @@ static inline DiscordErrorCode discord_interaction_reply_embed(DiscordClient* cl
 
 #define DISCORD_REPLY_PREDEFINED_EMBED_STYLE(ecolor, eemoji, bot, msg, etitle, edesc) \
     do { \
+        char _embed_title[256]; \
+        snprintf(_embed_title, sizeof(_embed_title), "%s %s", eemoji, etitle); \
         discord_reply_embed(bot->clients.discord, msg, &(DiscordEmbed){ \
-            .title = eemoji " " etitle, \
+            .title = _embed_title, \
             .description = edesc, \
             .color = ecolor, \
             .author = &(DiscordEmbedAuthor){ .name = "JustBOT-C" } \
@@ -418,13 +420,15 @@ static inline DiscordErrorCode discord_interaction_reply_embed(DiscordClient* cl
 
 #define DISCORD_IREPLY_PREDEFINED_EMBED_STYLE(ecolor, eemoji, bot, event_id, event_token, etitle, edesc) \
     do { \
+        char _embed_title[256]; \
+        snprintf(_embed_title, sizeof(_embed_title), "%s %s", eemoji, etitle); \
         discord_interaction_reply_embed(bot->clients.discord, event_id, event_token, &(DiscordEmbed){ \
-            .title = eemoji " " etitle, \
+            .title = _embed_title, \
             .description = edesc, \
             .color = ecolor, \
             .author = &(DiscordEmbedAuthor){ .name = "JustBOT-C" } \
         }); \
-    } while (0);
+    } while (0)
 
 #define DISCORD_IREPLY_ERROR(bot, event_id, event_token, etitle, edesc) \
     DISCORD_IREPLY_PREDEFINED_EMBED_STYLE(0xff0000, "🛑", bot, event_id, event_token, etitle, edesc)
