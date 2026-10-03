@@ -1,4 +1,5 @@
 #include <bot/bot.h>
+#include <concord.h>
 #include <discord-events.h>
 #include <lib/string-utils.h>
 
@@ -16,11 +17,7 @@ void bot_on_message_create(struct discord* client, const DiscordMessage* msg) {
     char* prefix = bot->config.commands.prefix;
 
     if (str_starts_with(msg->content, prefix)) {
-        discord_reply_embed(client, msg, &(DiscordEmbed){
-            .color = 0xff0000,
-            .title = "Nie ma jeszcze komend bracie!",
-            .description = "Wiem, że czekacie!\n\nAle się zrymowało frfr. A tak na serio to na razie będą slash tylko, pozdrawiam."
-        });     
+        DISCORD_REPLY_ERROR(bot, msg, "Nie działa jeszcze!", "Nie ma komend prefixowych! Co ty myślisz, że wszystko będzie implementowane w 5 nanosekund? Pisałeś kiedyś w języku Bogów, że się odzywasz (chociażby Zap, Elash, Wavler, HolyC czy zwykłe C)?");
     }
 }
 

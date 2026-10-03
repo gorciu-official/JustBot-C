@@ -386,3 +386,16 @@ static inline DiscordErrorCode discord_reply_embed_ret(DiscordClient* client, co
 static inline DiscordErrorCode discord_reply_embed(DiscordClient* client, const DiscordMessage* reference, DiscordEmbed* embed) {
     return discord_reply_embed_ret(client, reference, embed, NULL);
 }
+
+#define DISCORD_REPLY_PREDEFINED_EMBED_STYLE(ecolor, eemoji, bot, msg, etitle, edesc) \
+    do { \
+        discord_reply_embed(bot->clients.discord, msg, &(DiscordEmbed){ \
+            .title = eemoji " " etitle, \
+            .description = edesc, \
+            .color = ecolor, \
+            .author = &(DiscordEmbedAuthor){ .name = "JustBOT-C" } \
+        }); \
+    } while (0);
+
+#define DISCORD_REPLY_ERROR(bot, msg, etitle, edesc) \
+    DISCORD_REPLY_PREDEFINED_EMBED_STYLE(0xff0000, "🛑", bot, msg, etitle, edesc)
