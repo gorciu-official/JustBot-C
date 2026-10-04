@@ -5,3 +5,6 @@
 [submodule "external/sqlite"]
 	path = external/sqlite
 	url = https://github.com/sqlite/sqlite.git
+[submodule "external/cjson"]
+	path = external/cjson
+	url = https://github.com/DaveGamble/cJSON

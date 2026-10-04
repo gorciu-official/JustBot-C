@@ -15,9 +15,9 @@ SRC_DIR    := src
 OBJ_DIR    := $(TARGET_DIR)/obj
 
 C_SOURCES  := $(shell find $(SRC_DIR) -type f -name '*.c')
-C_OBJECTS  := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(C_SOURCES))
+C_OBJECTS  := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(C_SOURCES)) external/cjson/cJSON.o
 
-all: external/concord/libdiscord.a external/sqlite/build-output/lib/libsqlite3.a \
+all: external/concord/lib/libdiscord.a external/sqlite/build-output/lib/libsqlite3.a \
 	$(C_OBJECTS)
 	@echo -e "\033[1;36m[ LD ]\033[0m objects -> binary"
 	@$(CC) $(C_OBJECTS) -Lexternal/concord/lib -Lexternal/sqlite/build-output/lib -lm -lsqlite3 -ldiscord -lcurl -pthread -lpthread -o $(TARGET_DIR)/justbot  
@@ -27,9 +27,13 @@ submodules:
 	@echo -e "\033[1;36m[ MOD ]\033[0m downloading submodules"
 	@git submodule update --init --recursive
 
-external/concord/libdiscord.a: submodules
+external/concord/lib/libdiscord.a: submodules
 	@echo -e "\033[1;36m[ MOD ]\033[0m concord library"
 	@make -C external/concord
+
+external/cjson/cJSON.o: submodules
+	@echo -e "\033[1;36m[ MOD ]\033[0m cjson library"
+	@make -C external/cjson
 
 external/sqlite/build-output/lib/libsqlite3.a:
 	@echo -e "\033[1;36m[ MOD ]\033[0m sqlite"

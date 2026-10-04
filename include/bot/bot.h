@@ -14,6 +14,9 @@ typedef struct {
         struct discord* discord;
         sqlite3* sqlite;
     } clients;
+    struct {
+        uint64_t discord_user_id;
+    } user;
     JustBotSecrets secrets;
     JustBotConfig config;
 } JustBot;
@@ -28,6 +31,7 @@ extern void bot_on_ready(DiscordClient* client, const DiscordReady* event);
 extern void bot_on_interaction(DiscordClient* client, const DiscordInteraction* event);
 extern void bot_on_message_create(struct discord* client, const DiscordMessage* msg);
 extern void bot_on_prefix_command(JustBot* bot, const DiscordMessage* msg);
+extern void bot_on_ai_ping(JustBot* bot, const DiscordMessage* msg, char* prefix);
 
 // -- database
 extern void bot_init_db(JustBot* bot);

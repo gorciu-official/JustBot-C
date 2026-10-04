@@ -1,9 +1,9 @@
 #pragma once
 
-#include "discord_codecs.h"
 #include <stdint.h>
 
 #include <discord.h>
+#include <discord_codecs.h>
 #include <interaction.h>
 
 typedef struct discord_activities DiscordActivities;
