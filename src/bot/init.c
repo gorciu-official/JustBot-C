@@ -19,6 +19,8 @@ void bot_on_message_create(struct discord* client, const DiscordMessage* msg) {
     if (str_starts_with(msg->content, prefix)) {
         DISCORD_REPLY_ERROR(bot, msg, "Nie działa jeszcze!", "Nie ma komend prefixowych! Co ty myślisz, że wszystko będzie implementowane w 5 nanosekund? Pisałeś kiedyś w języku Bogów, że się odzywasz (chociażby Zap, Elash, Wavler, HolyC czy zwykłe C)?");
     }
+
+    bot_db_add_xp(bot, msg->author->id, 4);
 }
 
 void bot_init(JustBot* bot, JustBotSecrets* secrets) {

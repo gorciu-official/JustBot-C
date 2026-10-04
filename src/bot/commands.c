@@ -7,9 +7,11 @@
 #include <lib/logger.h>
 
 DECLARE_CMD(ping);
+DECLARE_CMD(lvl);
 
 JustBotCommand* commands[] = {
     &cmd_ping,
+    &cmd_lvl,
     NULL
 };
 

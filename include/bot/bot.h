@@ -24,4 +24,7 @@ extern void bot_init_commands(JustBot* bot, const DiscordReady* event);
 
 extern void bot_on_ready(DiscordClient* client, const DiscordReady* event);
 extern void bot_on_interaction(DiscordClient* client, const DiscordInteraction* event);
+
 extern void bot_init_db(JustBot* bot);
+extern void bot_db_add_xp(JustBot* bot, uint64_t user_id, int xp);
+extern int bot_db_get_xp(JustBot* bot, uint64_t user_id);
