@@ -425,6 +425,12 @@ static inline DiscordErrorCode discord_interaction_reply_embed(DiscordClient* cl
 #define DISCORD_REPLY_ERROR(bot, msg, etitle, edesc) \
     DISCORD_REPLY_PREDEFINED_EMBED_STYLE(DISCORD_CUSTOMIZATION_ERROR_COLOR, DISCORD_CUSTOMIZATION_ERROR_EMOJI, bot, msg, etitle, edesc)
 
+#define DISCORD_REPLY_SUCCESS(bot, msg, etitle, edesc) \
+    DISCORD_REPLY_PREDEFINED_EMBED_STYLE(DISCORD_CUSTOMIZATION_SUCCESS_COLOR, DISCORD_CUSTOMIZATION_SUCCESS_EMOJI, bot, msg, etitle, edesc)
+
+#define DISCORD_REPLY_INFO(bot, msg, etitle, edesc) \
+    DISCORD_REPLY_PREDEFINED_EMBED_STYLE(DISCORD_CUSTOMIZATION_INFO_COLOR, DISCORD_CUSTOMIZATION_INFO_EMOJI, bot, msg, etitle, edesc)
+
 #define DISCORD_IREPLY_PREDEFINED_EMBED_STYLE(ecolor, eemoji, bot, event_id, event_token, etitle, edesc) \
     do { \
         char _embed_title[256]; \

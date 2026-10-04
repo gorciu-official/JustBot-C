@@ -3,8 +3,10 @@
 #include <bot/command.h>
 #include <lib/logger.h>
 
+#include <stdint.h>
+
 static void cmd_lvl_handler(JustBotCommandAPI* api) {
-    uint64_t user_id = api->invocation.member->user->id;
+    uint64_t user_id = api->invocation.user->id;
     int xp = bot_db_get_xp(api->bot, user_id);
 
     char message[128];

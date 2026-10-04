@@ -12,6 +12,7 @@ typedef struct JustBotCommandAPI {
         char* used_alias;
         struct JustBotCommand* command;
         DiscordGuildMember* member;
+        DiscordUser* user;
     } invocation;
 
     const void* raw;

@@ -7,6 +7,7 @@
 #include <string.h>
 #include <lib/some.h>
 #include <lib/includes.h>
+#include <lib/or.h>
 
 #include <events/interaction-reply-boilerplate.h>
 
@@ -46,6 +47,7 @@ void bot_on_interaction(DiscordClient* client, const DiscordInteraction* event) 
         .invocation = {
             .command = cmd,
             .member = event->member,
+            .user = OR(event->user, event->member->user),
             .used_alias = cmd->name
         },
         .reply = {
