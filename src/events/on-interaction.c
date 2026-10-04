@@ -1,5 +1,5 @@
 #include <concord.h>
-#include <discord_codecs.h>
+#include <concord/discord_codecs.h>
 
 #include <bot/bot.h>
 #include <bot/command.h>

@@ -2,9 +2,9 @@
 
 #include <stdint.h>
 
-#include <discord.h>
-#include <discord_codecs.h>
-#include <interaction.h>
+#include <concord/discord.h>
+#include <concord/discord_codecs.h>
+#include <concord/interaction.h>
 
 typedef struct discord_activities DiscordActivities;
 typedef struct discord_activity DiscordActivity;

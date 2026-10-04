@@ -1,7 +1,7 @@
 #include <stddef.h>
 
 #include <concord.h>
-#include <application_command.h>
+#include <concord/application_command.h>
 #include <bot/bot.h>
 #include <bot/command.h>
 #include <lib/logger.h>

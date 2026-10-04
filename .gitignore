@@ -2,3 +2,5 @@ target
 
 bot.db
 .env
+
+external/include/concord

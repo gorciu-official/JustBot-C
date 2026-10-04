@@ -30,6 +30,8 @@ submodules:
 external/concord/lib/libdiscord.a: submodules
 	@echo -e "\033[1;36m[ MOD ]\033[0m concord library"
 	@make -C external/concord
+	@mkdir -p external/include/concord 
+	@cp external/concord/include/*.h external/concord/core/*.h external/concord/gencodecs/*.h external/include/concord
 
 external/cjson/cJSON.o: submodules
 	@echo -e "\033[1;36m[ MOD ]\033[0m cjson library"
