@@ -26,5 +26,19 @@ typedef struct {
         char* path;
     } db;
 
+    struct {
+        struct {
+            int lvl_per_message;
+
+            uint64_t long_msg_threshold;
+            uint64_t described_attachment_msg_threshold;
+
+            float long_msg_multiplier;
+            float described_attachment_multiplier;
+
+            uint64_t* excluded_channels;
+        } leveling;
+    } features;
+
     uint64_t guild_id;
 } JustBotConfig;
