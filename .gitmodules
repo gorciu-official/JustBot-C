@@ -2,3 +2,6 @@
 	path = external/concord
 	url = https://github.com/Cogmasters/concord.git
 	branch = dev
+[submodule "external/sqlite"]
+	path = external/sqlite
+	url = https://github.com/sqlite/sqlite.git

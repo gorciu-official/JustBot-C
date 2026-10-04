@@ -17,15 +17,25 @@ OBJ_DIR    := $(TARGET_DIR)/obj
 C_SOURCES  := $(shell find $(SRC_DIR) -type f -name '*.c')
 C_OBJECTS  := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(C_SOURCES))
 
-all: concord $(C_OBJECTS)
+all: external/concord/libdiscord.a external/sqlite/build-output/lib/libsqlite3.a \
+	$(C_OBJECTS)
 	@echo -e "\033[1;36m[ LD ]\033[0m objects -> binary"
-	@$(CC) $(C_OBJECTS) -Lexternal/concord/lib -ldiscord -lcurl -pthread -lpthread -o $(TARGET_DIR)/justbot  
+	@$(CC) $(C_OBJECTS) -Lexternal/concord/lib -Lexternal/sqlite/build-output/lib -lm -lsqlite3 -ldiscord -lcurl -pthread -lpthread -o $(TARGET_DIR)/justbot  
 	@echo -e "\033[1;92mCompilation success!\033[0m"
 
-concord:
-	@echo -e "\033[1;36m[ MOD ]\033[0m concord library"
+submodules:
+	@echo -e "\033[1;36m[ MOD ]\033[0m downloading submodules"
 	@git submodule update --init --recursive
+
+external/concord/libdiscord.a: submodules
+	@echo -e "\033[1;36m[ MOD ]\033[0m concord library"
 	@make -C external/concord
+
+external/sqlite/build-output/lib/libsqlite3.a:
+	@echo -e "\033[1;36m[ MOD ]\033[0m sqlite"
+	@sh -c "cd external/sqlite && exec ./configure --prefix=./build-output --disable-shared --enable-static"
+	@make -C external/sqlite
+	@make -C external/sqlite install
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)

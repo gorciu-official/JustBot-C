@@ -36,6 +36,9 @@ void bot_init(JustBot* bot, JustBotSecrets* secrets) {
     discord_set_on_ready(bot->clients.discord, bot_on_ready);
     discord_set_on_interaction_create(bot->clients.discord, bot_on_interaction);
 
+    // prepare db 
+    bot_init_db(bot);
+
     // start the bot
     discord_run(bot->clients.discord);
 }

@@ -25,6 +25,9 @@ void bot_init_default_config(JustBot* bot) {
                     "W 99\% przypadków ma to jakiś powód, więc jak nie możesz wywołać komendy inaczej to masz problem, musisz czekać"
             }
         },
+        .db = {
+            .path = "bot.db"
+        },
         .guild_id = 1403639417620664320
     };
 }

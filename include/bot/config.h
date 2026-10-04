@@ -22,5 +22,9 @@ typedef struct {
         } shared_runner_messages;
     } commands;
 
+    struct {
+        char* path;
+    } db;
+
     uint64_t guild_id;
 } JustBotConfig;
