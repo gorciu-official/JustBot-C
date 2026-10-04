@@ -29,6 +29,7 @@ typedef struct {
     struct {
         struct {
             int lvl_per_message;
+            int level_divider;
 
             uint64_t long_msg_threshold;
             uint64_t described_attachment_msg_threshold;

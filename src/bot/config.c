@@ -35,6 +35,8 @@ void bot_init_default_config(JustBot* bot) {
         .features = {
             .leveling = {
                 .lvl_per_message = 4,
+                .level_divider = 100,
+
                 .excluded_channels = leveling_excluded_channels,
 
                 .described_attachment_msg_threshold = 15,
