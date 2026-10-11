@@ -37,7 +37,10 @@ void bot_on_message_create(DiscordClient* client, const DiscordMessage* msg) {
     char ai_prefix[32];
     snprintf(ai_prefix, sizeof(ai_prefix), "<@%" PRIu64 ">", bot->user.discord_user_id);
 
-    if (str_starts_with(msg->content, ai_prefix)) {
+    if (
+        str_starts_with(msg->content, ai_prefix) ||
+        (msg->referenced_message && msg->referenced_message->author->id == bot->user.discord_user_id)
+    ) {
         bot_on_ai_ping(bot, msg, &prefix[0]); 
     }
 
