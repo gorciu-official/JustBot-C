@@ -23,3 +23,10 @@ static void reply_info(JustBotCommandAPI* api, char* title, char* desc) {
     JustBot* bot = api->bot; 
     DISCORD_REPLY_INFO(bot, event, title, desc);
 }
+
+__attribute__((used))
+static void reply_text(JustBotCommandAPI* api, char* text) {
+    const DiscordMessage* event = api->raw;
+    JustBot* bot = api->bot;
+    DISCORD_REPLY_TEXT(bot, event, text);
+}

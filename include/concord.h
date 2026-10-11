@@ -373,6 +373,13 @@ static inline DiscordErrorCode discord_reply_ret(DiscordClient* client, const Di
     return discord_create_message(client, reference->channel_id, params, ret);
 }
 
+static inline DiscordErrorCode discord_reply_text_ret(DiscordClient* client, const DiscordMessage* reference, const char* content, DiscordRetMessage* ret) {
+    DiscordCreateMessage params = (DiscordCreateMessage) {
+        .content = (char*) content,
+    };
+    return discord_reply_ret(client, reference, &params, ret);
+}
+
 static inline DiscordErrorCode discord_reply_embed_ret(DiscordClient* client, const DiscordMessage* reference, DiscordEmbed* embed, DiscordRetMessage* ret) {
     static DiscordEmbeds embeds = {
         .size = 1,
@@ -420,6 +427,11 @@ static inline DiscordErrorCode discord_interaction_reply_embed(DiscordClient* cl
             .color = ecolor, \
             .author = &(DiscordEmbedAuthor){ .name = "JustBOT-C" } \
         }); \
+    } while (0);
+
+#define DISCORD_REPLY_TEXT(bot, msg, text) \
+    do { \
+        discord_reply_text_ret(bot->clients.discord, msg, text, NULL); \
     } while (0);
 
 #define DISCORD_REPLY_ERROR(bot, msg, etitle, edesc) \
