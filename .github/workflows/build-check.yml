@@ -19,5 +19,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential libcurl4-openssl-dev clang cmake pkg-config
 
+      - name: Download repository submodules 
+        run: make submodules CC=clang
+
       - name: Build project
         run: make CC=clang
