@@ -1,8 +1,5 @@
 # JustBOT-C
 
-A troll rewrite of [JustBOT](https://github.com/JustcordProjects/JustBot) in C. Better than [EclairBOT-C](https://github.com/eclairbakery/EclairBot-c).
+A troll rewrite of [JustBOT](https://github.com/JustcordProjects/JustBot) (a Discord bot for the JustCord server) in kinda modern C. Better than [EclairBOT-C](https://github.com/eclairbakery/EclairBot-c).
 
-Simply, a Discord bot written in C23.
-
-> [!CAUTION]
-> Yes, this is experimental and mostly trolling people on the server.
+If you forgot to clone the repo with submodules, please `make submodules` before using any other `make` commands.

@@ -27,13 +27,13 @@ submodules:
 	@echo -e "\033[1;36m[ MOD ]\033[0m downloading submodules"
 	@git submodule update --init --recursive
 
-external/concord/lib/libdiscord.a: submodules
+external/concord/lib/libdiscord.a: 
 	@echo -e "\033[1;36m[ MOD ]\033[0m concord library"
 	@make -C external/concord
 	@mkdir -p external/include/concord 
 	@cp external/concord/include/*.h external/concord/core/*.h external/concord/gencodecs/*.h external/include/concord
 
-external/cjson/cJSON.o: submodules
+external/cjson/cJSON.o:
 	@echo -e "\033[1;36m[ MOD ]\033[0m cjson library"
 	@make -C external/cjson
 
