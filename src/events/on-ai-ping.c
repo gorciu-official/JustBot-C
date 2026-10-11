@@ -90,12 +90,13 @@ static char* get_system_prompt(JustBot* bot) {
 }
 
 char* ask_gemini(JustBot* bot, const char* prompt, const char* api_key)  {
-    CURL* curl = NULL;
     struct curl_slist* headers = NULL;
     cJSON* root = NULL;
     cJSON* parsed = NULL;
     char* json = NULL;
     char* answer = NULL;
+
+    char* system_prompt = get_system_prompt(bot);
 
     HttpResponse response = {
         .data = malloc(1),
@@ -105,7 +106,7 @@ char* ask_gemini(JustBot* bot, const char* prompt, const char* api_key)  {
     if (!response.data)
         return NULL;
 
-    curl = curl_easy_init();
+    CURL* curl = curl_easy_init();
     if (!curl)
         goto cleanup;
 
@@ -127,7 +128,7 @@ char* ask_gemini(JustBot* bot, const char* prompt, const char* api_key)  {
     cJSON_AddItemToObject(system_instruction, "parts", sys_parts);
 
     cJSON *sys_part_item = cJSON_CreateObject();
-    cJSON_AddStringToObject(sys_part_item, "text", get_system_prompt(bot));
+    cJSON_AddStringToObject(sys_part_item, "text", system_prompt);
     cJSON_AddItemToArray(sys_parts, sys_part_item);
 
     if (!contents || !content || !parts || !part)
@@ -198,6 +199,7 @@ cleanup:
     curl_slist_free_all(headers);
     curl_easy_cleanup(curl);
     free(response.data);
+    free(system_prompt);
 
     return answer;
 }
