@@ -39,6 +39,15 @@ typedef struct {
 
             uint64_t* excluded_channels;
         } leveling;
+
+        struct {
+            bool enabled;
+
+            struct {
+                bool politics;
+                bool philosophy;
+            } topic_restrictions;
+        } ai;
     } features;
 
     uint64_t guild_id;
