@@ -8,6 +8,7 @@
 #include <string.h>
 
 #include <lib/string-utils.h>
+#include <lib/autofree.h>
 
 #include <cjson.h>
 #include <curl/curl.h>
@@ -96,7 +97,7 @@ char* ask_gemini(JustBot* bot, const char* prompt, const char* api_key)  {
     char* json = NULL;
     char* answer = NULL;
 
-    char* system_prompt = get_system_prompt(bot);
+    autofree char* system_prompt = get_system_prompt(bot);
 
     HttpResponse response = {
         .data = malloc(1),
@@ -199,7 +200,6 @@ cleanup:
     curl_slist_free_all(headers);
     curl_easy_cleanup(curl);
     free(response.data);
-    free(system_prompt);
 
     return answer;
 }

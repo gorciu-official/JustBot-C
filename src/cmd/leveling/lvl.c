@@ -43,6 +43,7 @@ const JustBotCommand cmd_lvl = {
     .name = "lvl",
     .description.main = "Wyświetl jak Ty (lub ktokolwiek inny) jest daleko w rankingu poziomów! Poziom objaw!",
     .description.shortened = "Wyświetl swój level lub level wskazanego użytkownika",
+    .category = &category_leveling,
 
     .permissions.allowed_roles = NULL,
     .permissions.allowed_users = NULL,

@@ -11,6 +11,7 @@ const JustBotCommand cmd_ping = {
     .name = "ping",
     .description.main = "Taka komenda do sprawdzania czy bot działa. Useless 99\% of the time.",
     .description.shortened = "Pinguje bota!",
+    .category = &category_general,
 
     .permissions.allowed_roles = NULL,
     .permissions.allowed_users = NULL,

@@ -4,6 +4,7 @@
 #include <concord.h>
 
 #include <bot/bot.h>
+#include <bot/cmd-category.h>
 
 struct JustBotCommand;
 
@@ -32,6 +33,7 @@ typedef struct JustBotCommand {
         char* main;
         char* shortened;
     } description;
+    JustBotCommandCategory* category;
 
     struct {
         char** allowed_roles;
