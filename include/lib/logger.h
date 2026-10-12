@@ -34,7 +34,8 @@ LOGGER_FUNCTION_DEF(error, "ERROR", "\033[31m")
 
 __attribute__((used))
 static void panic(const char* reason) {
-    logger_error("\033[91mFatal error\033[0m: %s", reason);
+    logger_error("");
+    logger_error("\033[91;1mFatal error\033[0m: %s", reason);
     logger_error("   If you believe this may be an error in JustBOT-C, please create an issue:");
     logger_error("      https://github.com/gorciu-official/JustBot-C/issues/new");
     abort();

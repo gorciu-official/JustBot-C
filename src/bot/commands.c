@@ -30,6 +30,15 @@ void bot_init_commands(JustBot* bot, const DiscordReady* event) {
 
         logger_mod_log("Commands", "Registering command: %s", cmd->name);
 
+        if (
+            !cmd->name || !cmd->description.main || !cmd->description.shortened ||
+            !cmd->execute || !cmd->category
+        ) {
+            logger_mod_error("Commands", "Found an uninitialized, but required field in command %s", cmd->name);
+            logger_mod_error("Commands", "Please ensure all fields were set. This is a code error. Panicking.");
+            panic("Uninitialized value in one of the required fields in command structure.");
+        }
+
         DiscordCreateGuildApplicationCommand params = {
             .name = cmd->name,
             .description = cmd->description.main
