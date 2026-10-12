@@ -5,6 +5,7 @@
 #include <lib/logger.h>
 #include <concord.h>
 
+#include <string.h>
 #include <sys/stat.h>
 
 #define JUSTBOT_INTENTS \
@@ -16,9 +17,6 @@
         | DISCORD_GATEWAY_GUILD_MESSAGE_REACTIONS               \
         )
 
-#define JUSTBOT_CONCORD_CFG_PATH \
-    "/tmp/justbot-concord-config-sensitive.json"
-
 #define JUSTBOT_CONCORD_CONFIG(cc, token) \
     asprintf(&cc, "{" \
         "\"log\": {" \
@@ -27,10 +25,21 @@
         "\"token\": \"%s\"" \
     "}", token)
 
-void bot_concord_config_save(char* concord_cfg) {
-    FILE* cfgf = fopen(JUSTBOT_CONCORD_CFG_PATH, "w");
+void bot_concord_config_save(char* concord_cfg, char* filename, size_t filename_size) {
+    char template[52] = "/tmp/justbot-concord-config-sensitive-XXXXXX";
+
+    int fd = mkstemp(template);
+    if (fd == -1) 
+        panic("Could not mkstemp a temporary file to store Concord's config");
+
+    if (strlen(template) + 1 > filename_size)
+        panic("Passed filename buffer is too small");
+
+    memcpy(filename, template, strlen(template) + 1);
+
+    FILE* cfgf = fdopen(fd, "w");
     if (cfgf == NULL) 
-        panic("Could not open a temporary file to store Concord's config");
+        panic("Could not fdopen a temporary file to store Concord's config");
 
     fputs(concord_cfg, cfgf);
 
@@ -47,13 +56,11 @@ void bot_init(JustBot* bot, JustBotSecrets* secrets) {
     JUSTBOT_CONCORD_CONFIG(concord_cfg, bot->secrets.discord_token);
 
     // ...and save it!
-    bot_concord_config_save(concord_cfg);
-
-    // change permissions for best practice
-    chmod(JUSTBOT_CONCORD_CFG_PATH, 0700);
+    char concord_cfg_filename[52];
+    bot_concord_config_save(concord_cfg, concord_cfg_filename, sizeof(concord_cfg_filename));
 
     // init discord 
-    bot->clients.discord = discord_config_init(JUSTBOT_CONCORD_CFG_PATH);
+    bot->clients.discord = discord_config_init(concord_cfg_filename);
     discord_add_intents(bot->clients.discord, JUSTBOT_INTENTS);
     discord_set_data(bot->clients.discord, bot);
 
