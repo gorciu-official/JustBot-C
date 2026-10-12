@@ -15,8 +15,6 @@ void bot_on_prefix_command(JustBot* bot, const DiscordMessage* msg) {
     while (str_starts_with(command_name, " "))
         command_name = str_trim_prefix(command_name, " ");
 
-    logger_log("cmd name:%s--end", command_name);
-
     SOME(JustBotCommand, commands, cmd, strcmp(cmd->name, command_name) == 0) 
 
     if (!cmd) {

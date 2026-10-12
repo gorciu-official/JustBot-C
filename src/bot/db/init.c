@@ -29,5 +29,5 @@ void bot_init_db(JustBot* bot) {
 
     HANDLE_ERROR_PANIC(rc, "Could not create base database structure")
 
-    logger_log("DB initialized");
+    logger_mod_log("Database", "SQLite initialized");
 }
