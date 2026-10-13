@@ -1,0 +1,45 @@
+name: Update Git Submodules
+
+on:
+  schedule:
+    - cron: "0 */12 * * *" 
+  workflow_dispatch: 
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-submodules
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update submodules
+        run: |
+          git submodule sync --recursive
+          git submodule update --init --recursive --remote
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add .
+          
+          if git diff --cached --quiet; then
+            echo "No submodule updates available."
+            exit 0
+          fi
+
+          git commit -m "chore(submodules): update git submodules"
+          git push
