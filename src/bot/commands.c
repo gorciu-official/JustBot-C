@@ -10,6 +10,7 @@ DECLARE_CMD(ping);
 DECLARE_CMD(lvl);
 DECLARE_CMD(restart);
 DECLARE_CMD(help);
+DECLARE_CMD(toplvl);
 
 JustBotCommand* commands[] = {
     // general
@@ -18,6 +19,7 @@ JustBotCommand* commands[] = {
 
     // leveling
     &cmd_lvl,
+    &cmd_toplvl,
 
     // dev
     &cmd_restart,

@@ -18,10 +18,10 @@
         )
 
 #define JUSTBOT_CONCORD_CONFIG(cc, token) \
-    logger_mod_log("Concord", "Initializing bot configuration (logLevel=warn)"); \
+    logger_mod_log("Concord", "Initializing bot configuration (logLevel=error)"); \
     asprintf(&cc, "{" \
         "\"log\": {" \
-            "\"level\":" "\"warn\"" \
+            "\"level\":" "\"error\"" \
         "}," \
         "\"token\": \"%s\"" \
     "}", token)

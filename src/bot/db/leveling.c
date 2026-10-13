@@ -63,3 +63,55 @@ int bot_db_get_xp(JustBot* bot, uint64_t user_id) {
 
     return xp;
 }
+
+JustBotUser* bot_db_get_users_by_xp(JustBot* bot, int limit, int* count) {
+    *count = 0;
+
+    if (limit <= 0) {
+        return NULL;
+    }
+
+    sqlite3* db = bot->clients.sqlite;
+    sqlite3_stmt* stmt = NULL;
+
+    int rc = sqlite3_prepare_v2(
+        db,
+        "SELECT user_id, xp FROM users "
+        "ORDER BY xp DESC LIMIT ?",
+        -1,
+        &stmt,
+        NULL
+    );
+
+    if (rc != SQLITE_OK) {
+        return NULL;
+    }
+
+    sqlite3_bind_int(stmt, 1, limit);
+
+    JustBotUser* entries = malloc(sizeof(JustBotUser) * limit);
+    if (entries == NULL) {
+        sqlite3_finalize(stmt);
+        return NULL;
+    }
+
+    while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
+        entries[*count].user_id =
+            (uint64_t)sqlite3_column_int64(stmt, 0);
+
+        entries[*count].xp =
+            sqlite3_column_int(stmt, 1);
+
+        (*count)++;
+    }
+
+    sqlite3_finalize(stmt);
+
+    if (rc != SQLITE_DONE) {
+        free(entries);
+        *count = 0;
+        return NULL;
+    }
+
+    return entries;
+}

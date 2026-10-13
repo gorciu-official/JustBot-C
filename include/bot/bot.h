@@ -21,6 +21,11 @@ typedef struct {
     JustBotConfig config;
 } JustBot;
 
+typedef struct {
+    uint64_t user_id;
+    int xp;
+} JustBotUser;
+
 // -- initialization
 extern void bot_init(JustBot* bot, JustBotSecrets* secrets);
 extern void bot_init_default_config(JustBot* bot);
@@ -37,3 +42,4 @@ extern void bot_on_ai_ping(JustBot* bot, const DiscordMessage* msg, char* prefix
 extern void bot_init_db(JustBot* bot);
 extern void bot_db_add_xp(JustBot* bot, uint64_t user_id, int xp);
 extern int bot_db_get_xp(JustBot* bot, uint64_t user_id);
+JustBotUser* bot_db_get_users_by_xp(JustBot* bot, int limit, int* count);

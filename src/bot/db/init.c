@@ -17,8 +17,8 @@ void bot_init_db(JustBot* bot) {
     rc = sqlite3_exec(
         bot->clients.sqlite, 
         "CREATE TABLE IF NOT EXISTS users ("
-            "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-            "user_id INTEGER NOT NULL,"
+            "id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,"
+            "user_id INTEGER UNIQUE NOT NULL,"
             "xp INTEGER DEFAULT 0," 
 
             "money_wallet INTEGER DEFAULT 0,"

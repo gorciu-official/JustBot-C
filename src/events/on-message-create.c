@@ -5,6 +5,10 @@
 #include <string.h>
 
 int compute_msg_xp(const DiscordMessage* msg, JustBot* bot) {
+    // if you are retarted, then u don't get xp 
+    if (msg->author->bot || str_starts_with(msg->content, bot->config.commands.prefix))
+        return 0;
+
     float xp = bot->config.features.leveling.lvl_per_message;
 
     // excluded channels
