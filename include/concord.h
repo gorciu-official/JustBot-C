@@ -410,6 +410,16 @@ static inline DiscordErrorCode discord_interaction_reply_embed(DiscordClient* cl
     return discord_create_interaction_response(client, event_id, event_token, &params, NULL);
 }
 
+static inline DiscordErrorCode discord_interaction_reply_text(DiscordClient* client, uint64_t event_id, char* event_token, char* content) {
+    DiscordInteractionResponse params = {
+        .type = DISCORD_INTERACTION_CHANNEL_MESSAGE_WITH_SOURCE,
+        .data = &(DiscordInteractionCallbackData){
+            .content = content 
+        }
+    };
+    return discord_create_interaction_response(client, event_id, event_token, &params, NULL);
+}
+
 #define DISCORD_CUSTOMIZATION_ERROR_COLOR 0xff0000
 #define DISCORD_CUSTOMIZATION_ERROR_EMOJI "🛑"
 #define DISCORD_CUSTOMIZATION_SUCCESS_COLOR 0x00ff00
@@ -463,3 +473,8 @@ static inline DiscordErrorCode discord_interaction_reply_embed(DiscordClient* cl
 
 #define DISCORD_IREPLY_INFO(bot, event_id, event_token, etitle, edesc) \
     DISCORD_IREPLY_PREDEFINED_EMBED_STYLE(DISCORD_CUSTOMIZATION_INFO_COLOR, DISCORD_CUSTOMIZATION_INFO_EMOJI, bot, event_id, event_token, etitle, edesc)
+
+#define DISCORD_IREPLY_TEXT(bot, event_id, event_token, text) \
+    do { \
+        discord_interaction_reply_text(bot->clients.discord, event_id, event_token, text); \
+    } while (0);

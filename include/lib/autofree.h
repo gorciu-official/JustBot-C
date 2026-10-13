@@ -1,3 +1,5 @@
+#pragma once
+
 #include <stdlib.h>
 
 static inline void free_cleanup(void *p) {

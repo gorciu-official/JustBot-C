@@ -53,7 +53,9 @@ void bot_on_interaction(DiscordClient* client, const DiscordInteraction* event) 
         .reply = {
             .error = ireply_error,
             .success = ireply_success,
-            .info = ireply_info
+            .info = ireply_info,
+            .text = ireply_text,
+            .embed = ireply_embed
         }
     });
 }

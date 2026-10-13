@@ -1,5 +1,7 @@
 #pragma once
 
+#define _GNU_SOURCE
+
 #include <string.h>
 #include <stdbool.h>
 
@@ -17,3 +19,13 @@ static char* str_trim_prefix(char* source, char* prefix) {
 
     return source;
 }
+
+#define APPEND(where, what, ...)                                 \
+    do {                                                         \
+        char* prev = where;                                      \
+        if (prev != NULL)                                        \
+            asprintf(&where, "%s" what, prev, ##__VA_ARGS__);    \
+        else                                                     \
+            asprintf(&where, what, ##__VA_ARGS__);               \
+        free(prev);                                              \
+    } while (0)

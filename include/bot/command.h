@@ -23,6 +23,7 @@ typedef struct JustBotCommandAPI {
         void (*error)(struct JustBotCommandAPI* api, char* title, char* desc);
         void (*success)(struct JustBotCommandAPI* api, char* title, char* desc);
         void (*info)(struct JustBotCommandAPI* api, char* title, char* desc);
+        void (*embed)(struct JustBotCommandAPI* api, DiscordEmbed* embed);
         void (*text)(struct JustBotCommandAPI* api, char* text);
     } reply;
 } JustBotCommandAPI;

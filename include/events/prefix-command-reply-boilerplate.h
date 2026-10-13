@@ -28,5 +28,16 @@ __attribute__((used))
 static void reply_text(JustBotCommandAPI* api, char* text) {
     const DiscordMessage* event = api->raw;
     JustBot* bot = api->bot;
+
     DISCORD_REPLY_TEXT(bot, event, text);
+}
+
+__attribute__((used))
+static void reply_embed(JustBotCommandAPI* api, DiscordEmbed* embed) {
+    const DiscordMessage* event = api->raw;
+    JustBot* bot = api->bot;
+
+    discord_reply_embed(
+        bot->clients.discord, event, embed
+    );
 }

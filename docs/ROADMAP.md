@@ -16,7 +16,7 @@
     - [ ] `@everyone`/`@here` autoreply
     - [ ] gif-banning
 - [ ] Commands 
-    - [ ] Improve `lvl` by adding profile image and other shit
+    - [X] Improve `lvl` by adding profile image and other shit
     - [ ] `toplvl`
     - [ ] `wiki`
     - [ ] `remindme`
@@ -30,6 +30,7 @@
 - [ ] `compile` command 
 - [ ] Support for other than Wikipedia wiki providers with something like `--provider=tfwiki`
 - [ ] `random` command 
+- [ ] Add sending level up messages
 - [ ] E-mails
     - [ ] `email` command 
     - [ ] Receiving e-mails

@@ -1,42 +1,63 @@
+#define _GNU_SOURCE
+
 #include <stddef.h>
+#include <stdint.h>
 
 #include <bot/command.h>
+#include <bot/leveling.h>
+
 #include <lib/logger.h>
-
-#include <stdint.h>
-#include <math.h>
-
-int xp2lvl(JustBot* bot, int xp) {
-    return (int)floor(
-        (1.0 + sqrt(1.0 + 8.0 * xp / bot->config.features.leveling.level_divider)) / 2.0
-    );
-}
-
-int level2xp(JustBot* bot, int level) {
-    return (int)floor(
-        (level * (level - 1) / 2.0) * bot->config.features.leveling.level_divider
-    );
-}
+#include <lib/string-utils.h>
+#include <lib/autofree.h>
+#include <lib/progressbar.h>
 
 static void cmd_lvl_handler(JustBotCommandAPI* api) {
     uint64_t user_id = api->invocation.user->id;
+    char* user_avatar = api->invocation.user->avatar;
     char* nickname = api->invocation.user->username;
 
     int xp = bot_db_get_xp(api->bot, user_id);
     int level = xp2lvl(api->bot, xp);
+
+    int current_level_xp = level2xp(api->bot, level);
     int next_level_xp = level2xp(api->bot, xp2lvl(api->bot, xp) + 1);
 
-    char message[2000];
+    int progress_xp = xp - current_level_xp;
+    int needed_xp = next_level_xp - current_level_xp;
 
-    snprintf(
-        message, sizeof(message),
+    autofree char* message = NULL;
+    autofree char* user_avatar_url = NULL;
+    autofree char* progressbar = mk_progress_bar(progress_xp, needed_xp, 15);
+
+    APPEND(
+        message,
         "**%s** ma level **%d** (XP: %d)!\n"
-        "Do next lvl: %d - ok. %d wiad.",
+        "`%s %d/%d XP`\n\n"
+        "Do następnego poziomu: %d XP - ok. %d wiad.",
+
         nickname, level, xp,
+
+        progressbar, progress_xp, needed_xp, 
+
         next_level_xp - xp, (next_level_xp - xp) / api->bot->config.features.leveling.lvl_per_message
     );
 
-    api->reply.info(api, "Poziom użytkownika!", message);
+    APPEND(
+        user_avatar_url, "https://cdn.discordapp.com/avatars/%lu/%s.png?size=256",
+        user_id, user_avatar
+    );
+
+    DiscordEmbed embed = {
+        .title = "📊 Poziom użytkownika!",
+        .author = &(DiscordEmbedAuthor){ .name = "JustBOT-C" },
+        .color = 0x3498DB,
+        .description = message,
+        .thumbnail = &(DiscordEmbedThumbnail){ 
+            .url = user_avatar_url 
+        }
+    };
+
+    api->reply.embed(api, &embed);
 }
 
 const JustBotCommand cmd_lvl = {

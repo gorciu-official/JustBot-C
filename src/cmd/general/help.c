@@ -1,21 +1,10 @@
 #define _GNU_SOURCE
 
-#include <stdlib.h>
-
 #include <bot/command.h>
 #include <bot/cmd-category.h>
 
 #include <lib/autofree.h>
-
-#define APPEND(where, what, ...)                                 \
-    do {                                                         \
-        char* prev = where;                                      \
-        if (prev != NULL)                                        \
-            asprintf(&where, "%s" what, prev, ##__VA_ARGS__);    \
-        else                                                     \
-            asprintf(&where, what, ##__VA_ARGS__);               \
-        free(prev);                                              \
-    } while (0)
+#include <lib/string-utils.h>
 
 static void cmd_help_handler(JustBotCommandAPI* api) {
     const char* prefix = api->bot->config.commands.prefix;

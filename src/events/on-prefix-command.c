@@ -51,7 +51,9 @@ void bot_on_prefix_command(JustBot* bot, const DiscordMessage* msg) {
         .reply = {
             .error = reply_error,
             .success = reply_success,
-            .info = reply_info
+            .info = reply_info,
+            .text = reply_text,
+            .embed = reply_embed
         }
     });
 }
