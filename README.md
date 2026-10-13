@@ -4,7 +4,7 @@ An experimental rewrite of [JustBOT](https://github.com/JustcordProjects/JustBot
 
 <div align="center">
 
-    ![bot image](./docs/assets/readme-image.png)
+![bot image](./docs/assets/readme-image.png)
 
 </div>
 
