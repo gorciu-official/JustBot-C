@@ -23,3 +23,15 @@
             } \
         } \
     } while (0);
+
+#define INCLUDES_S(array, size, checking, reply_var_name, cond) \
+    bool reply_var_name = false; \
+    do { \
+        for (auto i = 0; i < size; ++i) { \
+            __auto_type checking = (array)[i]; \
+            if (cond) { \
+                reply_var_name = true; \
+                break; \
+            } \
+        } \
+    } while (0);

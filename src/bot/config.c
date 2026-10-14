@@ -26,7 +26,9 @@ void bot_init_default_config(JustBot* bot) {
                     "Czyli tłumacząc na ludzki język, jest to jedna z dwóch sytuacji: \n\n"
                     "- wyłączony został sposób, w który wywołałeś tę komendę, np. jest coś zjebanego ze slash commands, więc zostały one wyłączone,\n"
                     "- wyłączona została komenda, bo jest z nią coś nie tak\n\n" 
-                    "W 99\% przypadków ma to jakiś powód, więc jak nie możesz wywołać komendy inaczej to masz problem, musisz czekać"
+                    "W 99\% przypadków ma to jakiś powód, więc jak nie możesz wywołać komendy inaczej to masz problem, musisz czekać",
+                .permission_denied_title = "Co ty odpierdalasz?",
+                .permission_denied_desc = "Czy ja mam wysłać po Ciebie policję? Po chuj próbujesz wykonywać komendy nie dla Ciebie? Myślałeś, że bot w C jest dziurawy i Ci pozwoli? Tak? To się naucz, że Ci nie pozwolę."
             }
         },
         .db = {

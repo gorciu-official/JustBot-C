@@ -1,3 +1,5 @@
+#define _POSIX_C_SOURCE 200809L
+
 #include <unistd.h>
 #include <stdlib.h>
 #include <sys/wait.h>
@@ -17,6 +19,9 @@ exec /tmp/justbot-production-start-bin.elf; exit 1
 #endif 
 
 int main() {
+    setenv("JUSTBOT_LAUNCHED_VIA_PROD_LAUNCHER", "yes", 1);
+    setenv("PROD", "true", 1);
+
     for (;;) {
         pid_t pid = fork();
 

@@ -41,6 +41,38 @@ void bot_on_interaction(DiscordClient* client, const DiscordInteraction* event) 
         return;
     }
 
+    if (cmd->permissions.allowed_users != NULL && cmd->permissions.allowed_roles != NULL) {
+        INCLUDES_I(
+            cmd->permissions.allowed_users, user, 
+            in_allowed_users, OR(event->user, event->member->user)->id == user
+        )
+        
+        bool in_allowed_roles = false;
+
+        for (size_t n = 0; cmd->permissions.allowed_roles[n] != 0; n++) {
+            INCLUDES_S(
+                event->member->roles->array, event->member->roles->size, role, 
+                contains_allowed_role, cmd->permissions.allowed_roles[n] == role  
+            )
+
+            if (contains_allowed_role) {
+                in_allowed_roles = true;
+                break;
+            }
+        }
+
+        if (!in_allowed_roles && !in_allowed_users) {
+            // show permission denied message
+            DISCORD_IREPLY_ERROR(
+                bot, event->id, event->token, 
+                bot->config.commands.shared_runner_messages.permission_denied_title,
+                bot->config.commands.shared_runner_messages.permission_denied_desc
+            );
+            
+            return;
+        }
+    }
+
     cmd->execute(&(JustBotCommandAPI){
         .bot = bot,
         .raw = event,

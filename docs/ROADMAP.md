@@ -17,12 +17,13 @@
     - [ ] gif-banning
 - [ ] Commands 
     - [X] Improve `lvl` by adding profile image and other shit
-    - [ ] `toplvl`
+    - [X] `toplvl`
     - [ ] `wiki`
     - [ ] `remindme`
     - [ ] More flexible `ask` command 
-    - [ ] Add command aliases support 
+    - [X] Add command aliases support 
     - [ ] Add truncating the command description if it exceeds the 100 character limit for slash commands
+    - [X] Add permission system
 
 ## Nice to have
 

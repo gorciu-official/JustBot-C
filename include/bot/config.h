@@ -19,6 +19,9 @@ typedef struct {
 
             char* killswitch_activated_title;
             char* killswitch_activated_desc;
+
+            char* permission_denied_title;
+            char* permission_denied_desc;
         } shared_runner_messages;
     } commands;
 

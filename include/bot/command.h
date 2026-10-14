@@ -38,8 +38,8 @@ typedef struct JustBotCommand {
     JustBotCommandCategory* category;
 
     struct {
-        char** allowed_roles;
-        char** allowed_users;
+        uint64_t* allowed_roles;
+        uint64_t* allowed_users;
     } permissions;
     uint64_t flags;
 
