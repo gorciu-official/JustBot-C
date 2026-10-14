@@ -7,7 +7,8 @@
 #include <lib/string-utils.h>
 #include <lib/logger.h>
 
-#include <events/prefix-command-reply-boilerplate.h>
+#include <events/common/commands.h>
+#include <events/boilerplate/prefix-command-reply.h>
 
 bool contains_alias(char** aliases, char* alias) {
     if (aliases == NULL)
@@ -23,80 +24,18 @@ void bot_on_prefix_command(JustBot* bot, const DiscordMessage* msg) {
     while (str_starts_with(command_name, " "))
         command_name = str_trim_prefix(command_name, " ");
 
-    SOME(
-        JustBotCommand, commands, cmd, 
-        strcmp(cmd->name, command_name) == 0 || contains_alias(cmd->aliases, command_name)
-    ) 
-
-    if (!cmd) {
-        // display command not found message
-        DISCORD_REPLY_ERROR(
-            bot, msg, 
-            bot->config.commands.shared_runner_messages.command_not_found_title,
-            bot->config.commands.shared_runner_messages.command_not_found_desc
-        );
-        return;
-    }
-
-    INCLUDES(bot->config.commands.killswitches.commands, a, command_killswitched, strcmp(a, cmd->name) == 0)
-
-    if (bot->config.commands.killswitches.prefix || command_killswitched) {
-        // display killswitch message
-        DISCORD_REPLY_ERROR(
-            bot, msg, 
-            bot->config.commands.shared_runner_messages.killswitch_activated_title,
-            bot->config.commands.shared_runner_messages.killswitch_activated_desc
-        );
-        return;
-    }
-
-    if (cmd->permissions.allowed_users != NULL && cmd->permissions.allowed_roles != NULL) {
-        INCLUDES_I(
-            cmd->permissions.allowed_users, user, 
-            in_allowed_users, OR(msg->member->user, msg->author)->id == user
-        )
-        
-        bool in_allowed_roles = false;
-
-        for (size_t n = 0; cmd->permissions.allowed_roles[n] != 0; n++) {
-            INCLUDES_S(
-                msg->member->roles->array, msg->member->roles->size, role, 
-                contains_allowed_role, cmd->permissions.allowed_roles[n] == role  
-            )
-
-            if (contains_allowed_role) {
-                in_allowed_roles = true;
-                break;
-            }
-        }
-
-        if (!in_allowed_roles && !in_allowed_users) {
-            // show permission denied message
-            DISCORD_REPLY_ERROR(
-                bot, msg, 
-                bot->config.commands.shared_runner_messages.permission_denied_title,
-                bot->config.commands.shared_runner_messages.permission_denied_desc
-            );
-
-            return;
-        }
-    }
-
-    cmd->execute(&(JustBotCommandAPI){
-        .bot = bot,
-        .raw = msg,
-        .invocation = {
-            .command = cmd,
-            .member = msg->member,
-            .user = OR(msg->member->user, msg->author),
-            .used_alias = cmd->name
-        },
+    bot_common_command_handler(&(JustBotCCHInput){
+        .user = OR(msg->author, msg->member->user),
+        .member = msg->member,
+        .invoked_command_name = command_name,
         .reply = {
             .error = reply_error,
-            .success = reply_success,
+            .embed = reply_embed,
             .info = reply_info,
-            .text = reply_text,
-            .embed = reply_embed
-        }
+            .success = reply_success,
+            .text = reply_text
+        },
+        .raw = msg,
+        .bot = bot
     });
 }
