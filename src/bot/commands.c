@@ -30,7 +30,7 @@ void bot_init_commands(JustBot* bot, const DiscordReady* event) {
     for (size_t i = 0; commands[i] != NULL; i++) {
         JustBotCommand* cmd = commands[i];
 
-        logger_mod_log("Commands", "Registering command: %s", cmd->name);
+        logger_mod_trace("Commands", "Registering command: %s", cmd->name);
 
         if (
             !cmd->name || !cmd->description.main || !cmd->description.shortened ||
@@ -54,4 +54,6 @@ void bot_init_commands(JustBot* bot, const DiscordReady* event) {
             NULL
         );
     }
+
+    logger_mod_success("Commands", "Commands initialized and registered successfully.");
 }

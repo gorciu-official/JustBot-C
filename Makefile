@@ -1,12 +1,12 @@
 CC         ?= cc
 
-DEBUG      ?= false
+PROD       ?= false
 
 CFLAGS     := $(shell tr '\n' ' ' < compile_flags.txt)
 
-ifeq ($(DEBUG),true)
+ifeq ($(PROD),false)
 TARGET_DIR := target/debug
-CFLAGS     += -g
+CFLAGS     += -g -DJUSTBOT_DEBUG_BUILD
 else
 TARGET_DIR := target/release
 endif
@@ -49,7 +49,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@$(CC) -c $(CFLAGS) $< -o $@
 
 run: all
-	@echo -e "\033[1;36m[ RUN ]\033[0m $(TARGET_DIR)/justbot"
+	@echo -e "\033[1;36m[ RUN ]\033[0m $(TARGET_DIR)/justbot\n"
 	@dotenv -f .env run $(TARGET_DIR)/justbot
 
 -include $(C_OBJECTS:.o=.d)

@@ -26,11 +26,12 @@ void exit_handler() {
 }
 
 int main() {
-    logger_log("Welcome to JustBOT-C!");
-    logger_log("  > Licensed under: EUPL-v1.2.");
-    logger_log("  > Source code: https://github.com/gorciu-official/JustBot-C");
-    logger_log("  > Discord server: https://discord.gg/Q2e827Puwr");
-    logger_log("---");
+    logger_log   ("Welcome to JustBOT-C!");
+    logger_log   ("  > Source code: https://github.com/gorciu-official/JustBot-C");
+    logger_log   ("  > Licensed under: EUPL-v1.2.");
+    logger_log   ("  > Discord server: https://discord.gg/Q2e827Puwr");
+    logger_trace ("  > Bot testing Discord server: https://discord.gg/x5gD7cd4eb");
+    logger_log   ("---");
 
     atexit(exit_handler);
 

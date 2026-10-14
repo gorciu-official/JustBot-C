@@ -18,7 +18,7 @@
         )
 
 #define JUSTBOT_CONCORD_CONFIG(cc, token) \
-    logger_mod_log("Concord", "Initializing bot configuration (logLevel=error)"); \
+    logger_mod_log("Concord", "Making bot configuration"); \
     asprintf(&cc, "{" \
         "\"log\": {" \
             "\"level\":" "\"error\"" \

@@ -28,9 +28,24 @@
         va_end(args);                                                        \
     }
 
-LOGGER_FUNCTION_DEF(log,   "INFO",  "\033[36m")
-LOGGER_FUNCTION_DEF(warn,  "WARN",  "\033[33m")
-LOGGER_FUNCTION_DEF(error, "ERROR", "\033[31m")
+LOGGER_FUNCTION_DEF(log,     "INFO ",  "\033[36m")
+LOGGER_FUNCTION_DEF(warn,    "WARN ",  "\033[33m")
+LOGGER_FUNCTION_DEF(error,   "ERROR", "\033[31m")
+LOGGER_FUNCTION_DEF(success, "OK   ", "\033[32m")
+
+#ifdef JUSTBOT_DEBUG_BUILD
+LOGGER_FUNCTION_DEF(trace, "TRACE", "\033[35m")
+#else
+
+__attribute__((used)) static void logger_trace(...) {
+    return;
+}
+
+__attribute__((used)) static void logger_mod_trace(...) {
+    return;
+}
+
+#endif
 
 __attribute__((used))
 static void panic(const char* reason) {
