@@ -9,13 +9,24 @@
 
 #include <events/prefix-command-reply-boilerplate.h>
 
+bool contains_alias(char** aliases, char* alias) {
+    if (aliases == NULL)
+        return false;
+
+    INCLUDES(aliases, calias, contains_alias_ret, strcmp(calias, alias) == 0);
+    return contains_alias_ret;
+}
+
 void bot_on_prefix_command(JustBot* bot, const DiscordMessage* msg) {
     char* command_name = str_trim_prefix(msg->content, bot->config.commands.prefix);
 
     while (str_starts_with(command_name, " "))
         command_name = str_trim_prefix(command_name, " ");
 
-    SOME(JustBotCommand, commands, cmd, strcmp(cmd->name, command_name) == 0) 
+    SOME(
+        JustBotCommand, commands, cmd, 
+        strcmp(cmd->name, command_name) == 0 || contains_alias(cmd->aliases, command_name)
+    ) 
 
     if (!cmd) {
         // display command not found message

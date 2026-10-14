@@ -88,6 +88,7 @@ static void cmd_toplvl_handler(JustBotCommandAPI* api) {
 
 const JustBotCommand cmd_toplvl = {
     .name = "toplvl",
+    .aliases = (char*[]){ "topka", NULL },
     .description = {
         .main = "Czy chcesz zobaczyć januszów ~~biznesu~~ **pisania na serwerze**? To świetne miejsce dla Ciebie!",
         .shortened = "Wyświetla ludzi z największą ilością XP!"

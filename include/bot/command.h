@@ -34,6 +34,7 @@ typedef struct JustBotCommand {
         char* main;
         char* shortened;
     } description;
+    char** aliases;
     JustBotCommandCategory* category;
 
     struct {
