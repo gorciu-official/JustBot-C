@@ -4,6 +4,8 @@ Here you have Discord event handlers.
 
 Most common that you would want to look at are:
 
-- `on-interaction.c`: handles slash commands
-- `on-message-create.c`: adds XP points per message, invokes prefix commands and other shit 
-- `on-prefix-command.c`: handles prefix commands (invoked by `on-message-create.c`)
+- Discord ones
+    - `common/commands.c`: a common command handler for interactions and prefix commands
+- Common ones 
+    - `discord/interaction.c`: handles slash commands 
+    - `discord/message-create.c`: adds XP points per message, invokes prefix commands and other shit 
